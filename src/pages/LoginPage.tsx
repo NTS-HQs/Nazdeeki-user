@@ -9,7 +9,7 @@ const LoginPage = () => {
   const handleLogin = () => {
     if (username === 'judo' && password === 'judo123') {
       localStorage.setItem('isAuthenticated', 'true');
-      navigate('/');
+      navigate('/dashboard');
     } else {
       alert('Invalid credentials');
     }

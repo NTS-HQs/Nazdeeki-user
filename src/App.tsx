@@ -1,15 +1,18 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import OrdersRoutes from './routes/OrdersRoutes';
-import ProductsRoutes from './routes/ProductsRoutes';
-import OffersRoutes from './routes/OffersRoutes';
-import HistoryRoutes from './routes/HistoryRoutes';
-import CustomerRoutes from './routes/CustomerRoutes';
-import HelpRoutes from './routes/HelpRoutes';
-import SettingsRoutes from './routes/SettingsRoutes';
 import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
-import DashboardPage from './pages/DashboardPage';
+import ProfilePage from './pages/ProfilePage';
+import CollectionPage from './pages/CollectionPage';
+import BookingsPage from './pages/BookingsPage';
+import AddressCollectionPage from './pages/AddressCollectionPage';
+import OrderHistoryPage from './pages/OrderHistoryPage';
+import DineOrderPage from './pages/DineOrderPage';
+import RegisterRestaurantPage from './pages/RegisterRestaurantPage';
+import FeedbackPage from './pages/FeedbackPage';
+import SettingsPage from './pages/SettingsPage';
+import Homepage from './pages/HomePage';
+import Layout from './components/Layout';
 
 function App() {
   return (
@@ -17,14 +20,86 @@ function App() {
       <div>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/" element={<ProtectedRoute element={<DashboardPage />} />} />
-          <Route path="/orders/*" element={<ProtectedRoute element={<OrdersRoutes />} />} />
-          <Route path="/products/*" element={<ProtectedRoute element={<ProductsRoutes />} />} />
-          <Route path="/offers/*" element={<ProtectedRoute element={<OffersRoutes />} />} />
-          <Route path="/history/*" element={<ProtectedRoute element={<HistoryRoutes />} />} />
-          <Route path="/customer/*" element={<ProtectedRoute element={<CustomerRoutes />} />} />
-          <Route path="/help/*" element={<ProtectedRoute element={<HelpRoutes />} />} />
-          <Route path="/settings/*" element={<ProtectedRoute element={<SettingsRoutes />} />} />
+          <Route
+            path="/"
+            element={
+              <Layout>
+                <ProtectedRoute element={<Homepage />} />
+              </Layout>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <Layout>
+                <ProtectedRoute element={<ProfilePage />} />
+              </Layout>
+            }
+          />
+          <Route
+            path="/collection"
+            element={
+              <Layout>
+                <ProtectedRoute element={<CollectionPage />} />
+              </Layout>
+            }
+          />
+          <Route
+            path="/bookings"
+            element={
+              <Layout>
+                <ProtectedRoute element={<BookingsPage />} />
+              </Layout>
+            }
+          />
+          <Route
+            path="/address-collection"
+            element={
+              <Layout>
+                <ProtectedRoute element={<AddressCollectionPage />} />
+              </Layout>
+            }
+          />
+          <Route
+            path="/order-history"
+            element={
+              <Layout>
+                <ProtectedRoute element={<OrderHistoryPage />} />
+              </Layout>
+            }
+          />
+          <Route
+            path="/dine-order"
+            element={
+              <Layout>
+                <ProtectedRoute element={<DineOrderPage />} />
+              </Layout>
+            }
+          />
+          <Route
+            path="/register-restaurant"
+            element={
+              <Layout>
+                <ProtectedRoute element={<RegisterRestaurantPage />} />
+              </Layout>
+            }
+          />
+          <Route
+            path="/feedback"
+            element={
+              <Layout>
+                <ProtectedRoute element={<FeedbackPage />} />
+              </Layout>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <Layout>
+                <ProtectedRoute element={<SettingsPage />} />
+              </Layout>
+            }
+          />
         </Routes>
       </div>
     </Router>
