@@ -1,6 +1,7 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
+import OnboardingPage from './pages/OnboardingPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import ProfilePage from './pages/ProfilePage';
 import CollectionPage from './pages/CollectionPage';
@@ -19,9 +20,10 @@ function App() {
     <Router>
       <div>
         <Routes>
+          <Route path="/" element={<OnboardingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route
-            path="/"
+            path="/home"
             element={
               <Layout>
                 <ProtectedRoute element={<Homepage />} />
