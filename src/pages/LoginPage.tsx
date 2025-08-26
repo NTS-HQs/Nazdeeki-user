@@ -1,15 +1,40 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { sendOTP } from '../lib/authApi';
 
 const LoginPage = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  
   const navigate = useNavigate();
 
-  const handleGetOTP = () => {
-    if (phoneNumber.length === 10) {
-      navigate('/home');
-    } else {
-      alert('Please enter a valid 10-digit mobile number');
+  const handleGetOTP = async () => {
+    if (phoneNumber.length !== 10) {
+      setError('Please enter a valid 10-digit mobile number');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await sendOTP(phoneNumber);
+      if (response.success) {
+        console.log(`OTP sent successfully. ${response.isSignup ? 'New user signup' : 'Existing user login'}`);
+        // Navigate to OTP verification page with phone number and signup status
+        navigate('/otp-verification', {
+          state: {
+            phoneNumber: phoneNumber,
+            isSignup: response.isSignup
+          }
+        });
+      }
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Failed to send OTP. Please try again.');
+      console.error('OTP send error:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -68,6 +93,12 @@ const LoginPage = () => {
               </p>
             </div>
 
+            {error && (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+                <p className="text-red-600 text-sm">{error}</p>
+              </div>
+            )}
+
             {/* Phone Input */}
             <div className="relative">
               <div className="flex items-center bg-gray-50 rounded-lg border border-gray-200 px-4 py-3">
@@ -78,9 +109,10 @@ const LoginPage = () => {
                   type="tel"
                   placeholder="Mobile Number"
                   value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, ''))}
                   className="flex-1 bg-transparent outline-none text-gray-700 placeholder-gray-400"
                   maxLength={10}
+                  disabled={loading}
                 />
               </div>
             </div>
@@ -88,7 +120,8 @@ const LoginPage = () => {
             {/* Get OTP Button */}
             <button
               onClick={handleGetOTP}
-              className="w-full text-white font-medium py-4 rounded-xl transition-all duration-200 active:scale-95"
+              disabled={loading || phoneNumber.length !== 10}
+              className="w-full text-white font-medium py-4 rounded-xl transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
               style={{
                 backgroundColor: '#FF6B35',
                 borderRadius: '12px',
@@ -97,13 +130,15 @@ const LoginPage = () => {
                 boxShadow: '0 4px 12px rgba(255, 107, 53, 0.3)',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#E55A2B';
+                if (!loading && phoneNumber.length === 10) {
+                  e.currentTarget.style.backgroundColor = '#E55A2B';
+                }
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = '#FF6B35';
               }}
             >
-              Get OTP
+              {loading ? 'Sending...' : 'Get OTP'}
             </button>
           </div>
         </div>
