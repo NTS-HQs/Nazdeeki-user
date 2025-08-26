@@ -9,9 +9,17 @@ export default defineConfig({
     react(), 
     tailwindcss()
   ],
+  server: {
+    port: 5173,
+    host: true, // Allow access from network
+    strictPort: true, // Fail if port is already in use
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  define: {
+    'process.env': {}
+  }
 })

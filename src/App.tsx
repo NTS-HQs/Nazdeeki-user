@@ -1,5 +1,6 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useAuthInit } from './hooks/useAuthInit';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import OTPVerificationPage from './pages/OTPVerificationPage';
@@ -17,6 +18,9 @@ import Homepage from './pages/HomePage';
 import Layout from './components/Layout';
 
 function App() {
+  // Initialize authentication state on app start
+  useAuthInit();
+  
   return (
     <Router>
       <div>
