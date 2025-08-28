@@ -65,15 +65,11 @@ const LoginPage = () => {
       {/* Center Login Form Layer - Similar to 5.png */}
       <div className="relative z-10 flex items-center justify-center min-h-screen px-6">
         <div 
-          className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md mx-4"
-          style={{
-            borderRadius: '24px',
-            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
-          }}
+          className="bg-white rounded-2xl shadow-md p-4 py-10 md:p-8 w-full max-w-md mx-4 border-2"
         >
           {/* Logo and Title */}
-          <div className="text-center mb-8">
-            <div className="flex items-center justify-center mb-4">
+          <div className="text-center">
+            <div className="flex items-center justify-center">
               <img 
                 src="/source_Black_and_White_Simple_Circle_Brush_Name_Logo__8_-removebg-preview.png"
                 alt="Nazdeeki Logo"
@@ -85,26 +81,26 @@ const LoginPage = () => {
           {/* Login Form */}
           <div className="space-y-6">
             <div>
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">
+              <p className="text-lg md:text-2xl text-center font-semibold text-gray-800 mb-2">
                 Login with Mobile
-              </h2>
-              <p className="text-gray-500 text-sm mb-6">
+              </p>
+              <p className="text-gray-500 text-xs mb-4 text-center">
                 Quick login with a one-time password (OTP)
               </p>
             </div>
 
             {error && (
               <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-                <p className="text-red-600 text-sm">{error}</p>
+                <p className="text-red-600 text-xs">{error}</p>
               </div>
             )}
 
             {/* Phone Input */}
             <div className="relative">
-              <div className="flex items-center bg-gray-50 rounded-lg border border-gray-200 px-4 py-3">
-                <span className="text-sm mr-2">🇮🇳</span>
-                <span className="text-gray-600 mr-2">+91</span>
-                <span className="text-gray-300 mr-2">|</span>
+              <div className="flex items-center bg-gray-50 rounded-lg border border-gray-200 p-3">
+                <span className="text-md mr-1">🇮🇳</span>
+                <span className="text-gray-600 mr-1">+91</span>
+                <span className="text-gray-300 mr-1">|</span>
                 <input
                   type="tel"
                   placeholder="Mobile Number"
@@ -121,14 +117,8 @@ const LoginPage = () => {
             <button
               onClick={handleGetOTP}
               disabled={loading || phoneNumber.length !== 10}
-              className="w-full text-white font-medium py-4 rounded-xl transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{
-                backgroundColor: '#FF6B35',
-                borderRadius: '12px',
-                fontSize: '16px',
-                fontWeight: '500',
-                boxShadow: '0 4px 12px rgba(255, 107, 53, 0.3)',
-              }}
+              className="w-full text-white text-lg font-medium p-3 rounded-lg transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed bg-[#FF6B35]"
+              
               onMouseEnter={(e) => {
                 if (!loading && phoneNumber.length === 10) {
                   e.currentTarget.style.backgroundColor = '#E55A2B';

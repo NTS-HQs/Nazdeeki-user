@@ -22,7 +22,7 @@ const LandingPage = () => {
       <div className="relative z-10 w-full h-screen flex flex-col items-center justify-end px-6">
         <button
           onClick={handleContinue}
-          className="text-white font-medium transition-all duration-200 active:scale-95 mb-60"
+          className="text-white font-medium transition-all duration-200 active:scale-95 mb-36"
           style={{
             background: '#FF6B35',
             borderRadius: '25px',
