@@ -209,14 +209,7 @@ const OffersCarousel: React.FC<OffersCarouselProps> = ({ onOfferClick }) => {
 
   return (
     <div 
-      className="relative bg-white rounded-[18px] overflow-hidden shadow-md flex-shrink-0"
-      style={{ 
-        width: '379px', 
-        height: '177px',
-        margin: '0 auto',
-        marginTop: '16px',
-        aspectRatio: '182/85'
-      }}
+      className="relative bg-white rounded-lg overflow-hidden shadow-md flex-shrink-0 mx-auto mt-8 h-36 w-76"
       onMouseEnter={stopAutoSlide}
       onMouseLeave={startAutoSlide}
     >
@@ -272,7 +265,7 @@ const OffersCarousel: React.FC<OffersCarouselProps> = ({ onOfferClick }) => {
           {/* Right side - Discount Badge */}
           <div className="flex flex-col items-center justify-center p-4">
             <div 
-              className="bg-orange-500 text-white rounded-lg px-3 py-2 text-center shadow-lg"
+              className="bg-orange-500 text-white rounded-sm px-3 py-2 text-center shadow-lg"
               style={{ backgroundColor: '#F86B1C' }}
             >
               <div 
