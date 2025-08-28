@@ -1,6 +1,5 @@
 
 import { useAuthStore } from '../stores/authStore';
-import { AuthDebugInfo } from '../components/AuthDebugInfo';
 
 const HomePage = () => {
   const { user, logout } = useAuthStore();
@@ -10,7 +9,7 @@ const HomePage = () => {
   };
 
   return (
-    <main className="flex-grow p-6">
+    <main className="flex-grow p-6 min-h-screen">
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
           <p className="text-xl font-bold text-gray-800 mb-4">Welcome to Nazdeeki!</p>
@@ -39,8 +38,6 @@ const HomePage = () => {
         </div>
       </div>
       
-      {/* Debug info - only shows in development */}
-      <AuthDebugInfo />
     </main>
   );
 };
