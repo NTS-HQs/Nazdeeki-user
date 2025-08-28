@@ -46,12 +46,7 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <header 
-      className="flex justify-between items-center bg-transparent flex-shrink-0 px-4"
-      style={{ 
-        width: '379px', 
-        height: '49px',
-        margin: '16px auto 0 auto'
-      }}
+      className="flex justify-between items-center bg-transparent flex-shrink-0 px-2 py-4 md:w-full md:px-8"
     >
       {/* Left section - User profile and location */}
       <div className="flex items-center gap-[11px]">

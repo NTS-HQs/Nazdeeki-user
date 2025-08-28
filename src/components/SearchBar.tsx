@@ -26,15 +26,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
 
   return (
     <div 
-      className="relative flex items-center bg-white rounded-[15px] shadow-md border border-gray-200 flex-shrink-0"
-      style={{ 
-        width: '379px', 
-        height: '46px',
-        margin: '0 auto',
-        boxShadow: '0px 4px 12px 0px rgba(13, 10, 44, 0.06)',
-        border: '1px solid rgba(0, 0, 0, 0.1)',
-        background: 'linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.4) 100%)'
-      }}
+      className="relative border-2 flex items-center bg-white rounded-md shadow-md border-gray-300 flex-shrink-0 w-[348px] mx-2 md:mx-auto md:w-xl "
     >
       {/* Search Icon */}
       <div 
@@ -42,7 +34,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         style={{ 
           width: '30px', 
           height: '30px',
-          marginLeft: '8px'
+          marginLeft: '4px'
         }}
       >
         <div 
@@ -111,14 +103,14 @@ const SearchBar: React.FC<SearchBarProps> = ({
       >
         <div 
           className="flex items-center justify-center"
-          style={{ width: '24px', height: '24px' }}
+          style={{ width: '30px', height: '30px' }}
         >
           <svg 
             width="24" 
             height="24" 
             viewBox="0 0 24 24" 
             fill="none"
-            style={{ marginLeft: '8px', marginTop: '8px' }}
+            style={{ marginLeft: '6px', marginTop: '2px' }}
           >
             <path 
               d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" 
