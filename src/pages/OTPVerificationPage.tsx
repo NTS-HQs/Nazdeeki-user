@@ -131,15 +131,11 @@ const OTPVerificationPage = () => {
       {/* Center OTP Verification Form Layer */}
       <div className="relative z-10 flex items-center justify-center min-h-screen px-6">
         <div 
-          className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md mx-4"
-          style={{
-            borderRadius: '24px',
-            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
-          }}
+          className="bg-white rounded-2xl shadow-md p-8 w-full max-w-md mx-4"
         >
           {/* Logo and Title */}
-          <div className="text-center mb-8">
-            <div className="flex items-center justify-center mb-4">
+          <div className="text-center">
+            <div className="flex items-center justify-center ">
               <img 
                 src="/source_Black_and_White_Simple_Circle_Brush_Name_Logo__8_-removebg-preview.png"
                 alt="Nazdeeki Logo"
@@ -151,10 +147,10 @@ const OTPVerificationPage = () => {
           {/* OTP Verification Form */}
           <div className="space-y-6">
             <div className="text-center">
-              <h2 className="text-2xl font-semibold text-gray-800 mb-3">
+              <h2 className="text-lg font-semibold text-gray-800 mb-1">
                 OTP Verification
               </h2>
-              <p className="text-gray-500 text-sm mb-6">
+              <p className="text-gray-500 text-xs mb-6">
                 We've sent a 4-digit OTP to your mobile{'\n'}
                 number ending with {phoneNumber.slice(-4)}.
               </p>
@@ -209,7 +205,7 @@ const OTPVerificationPage = () => {
 
             {/* Resend OTP */}
             <div className="text-center">
-              <p className="text-gray-600 text-sm mb-2">
+              <p className="text-gray-600 text-xs mb-1">
                 Didn't get the code?{' '}
                 <button
                   onClick={handleResendOTP}

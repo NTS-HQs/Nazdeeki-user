@@ -1,45 +1,77 @@
+import React, { useState } from 'react';
+import { ChevronRight, Flame } from 'lucide-react';
+import { SlidersHorizontal, Triangle, Square } from 'lucide-react';
+import CategoriesModal from '../components/CategoriesModal';
+import CategoriesCarousel from '../components/CategoriesCarousel';
+import FilterPanel from '../components/FilterPanel';
 
-import { useAuthStore } from '../stores/authStore';
-
-const HomePage = () => {
-  const { user, logout } = useAuthStore();
-
-  const handleLogout = async () => {
-    await logout();
-  };
+const HomePage: React.FC = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [filterOpen, setFilterOpen] = useState(false);
 
   return (
-    <main className="flex-grow p-6 min-h-screen">
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <h1 className="text-2xl font-bold text-gray-800 mb-4">Welcome to Nazdeeki!</h1>
-          
-          {user && (
-            <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-4">
-              <h2 className="text-lg font-semibold text-orange-800 mb-2">User Information</h2>
-              <div className="space-y-2 text-sm">
-                <p><span className="font-medium">Name:</span> {user.name}</p>
-                <p><span className="font-medium">Phone:</span> +91 {user.phone}</p>
-                <p><span className="font-medium">User ID:</span> {user.id}</p>
-                {user.email && <p><span className="font-medium">Email:</span> {user.email}</p>}
-              </div>
-            </div>
-          )}
-          
-          <div className="flex justify-between items-center">
-            <p className="text-gray-600">You are successfully logged in!</p>
-            <button
-              onClick={handleLogout}
-              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors"
+    <>
+      <main className="flex-grow px-4 pt-4">
+        <div className="flex items-center justify-between">
+          <h2
+            className="text-base font-semibold text-gray-900"
+            style={{ fontFamily: 'Poppins' }}
+          >
+            Craving for something delicious?
+          </h2>
+          <button
+            onClick={() => setModalOpen(true)}
+            className="text-[#F86B1C]"
+          >
+            <ChevronRight size={20} />
+          </button>
+        </div>
+        <CategoriesCarousel />
+
+        {/* Top Local Favorites Heading */}
+        <div className="flex justify-center mt-6" style={{ paddingLeft: '18px', paddingRight: '18px' }}>
+          <div className="flex items-center gap-2">
+            <Flame size={20} color="#F86B1C" />
+            <h3
+              className="font-bold"
+              style={{ fontFamily: 'Poppins', fontSize: '20px', lineHeight: '20px', color: '#414141', letterSpacing: '0.25px' }}
             >
-              Logout
-            </button>
+              Top Local Favorites
+            </h3>
           </div>
         </div>
-      </div>
-      
-    </main>
+
+        {/* Filter Chips Row */}
+        <div
+          className="flex items-center gap-3 mt-2"
+          style={{ paddingLeft: '18px', paddingRight: '18px' }}
+        >
+          {/* Filters */}
+          <button
+            onClick={() => setFilterOpen(true)}
+            className="flex items-center gap-1 px-2 py-1 border border-gray-300 rounded-full text-[10px] font-medium text-[#505050]"
+          >
+            <SlidersHorizontal size={14} strokeWidth={2} /> Filters
+          </button>
+          {/* Nearest */}
+          <button className="px-2 py-1 border border-gray-300 rounded-full text-[10px] font-medium text-[#505050]">
+            Nearest Restro
+          </button>
+          {/* Non veg */}
+          <button className="flex items-center gap-1 px-2 py-1 border border-[#FF0000] rounded-full text-[10px] font-medium text-[#FF0000]">
+            <Triangle size={12} fill="#FF0000" strokeWidth={0} /> Non Veg
+          </button>
+          {/* Veg */}
+          <button className="flex items-center gap-1 px-2 py-1 border border-[#008000] rounded-full text-[10px] font-medium text-[#008000]">
+            <Square size={12} fill="#008000" strokeWidth={0} /> Veg
+          </button>
+        </div>
+      </main>
+      <CategoriesModal open={modalOpen} onClose={() => setModalOpen(false)} />
+      <FilterPanel open={filterOpen} onClose={() => setFilterOpen(false)} />
+    </>
   );
 };
 
 export default HomePage;
+

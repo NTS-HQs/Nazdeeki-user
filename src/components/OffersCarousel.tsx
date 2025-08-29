@@ -1,25 +1,8 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
+import { getPublicActiveOffers, type Offer } from '../lib/offersApi';
 
-interface Offer {
-  offer_id: number;
-  seller_id: string;
-  offer_title: string;
-  offer_description?: string;
-  offer_image?: string;
-  discount_type: 'percentage' | 'fixed_amount';
-  discount_value: number;
-  min_order_amount: number;
-  max_discount_amount?: number;
-  valid_from?: string;
-  valid_until?: string;
-  is_active: boolean;
-  usage_limit?: number;
-  used_count: number;
-  created_at: string;
-  updated_at: string;
-}
-
+// Offer type now comes from lib/offersApi
 interface OffersCarouselProps {
   onOfferClick?: (offer: Offer) => void;
 }
@@ -31,7 +14,7 @@ const OffersCarousel: React.FC<OffersCarouselProps> = ({ onOfferClick }) => {
   const [error, setError] = useState<string | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Mock offers data for now - will be replaced with API call
+  // Fallback mock data in case API fails or returns empty
   const mockOffers: Offer[] = [
     {
       offer_id: 1,
@@ -49,7 +32,7 @@ const OffersCarousel: React.FC<OffersCarouselProps> = ({ onOfferClick }) => {
       usage_limit: 1000,
       used_count: 250,
       created_at: "2025-01-01T00:00:00Z",
-      updated_at: "2025-01-01T00:00:00Z"
+      // updated_at omitted in user-facing Offer type
     },
     {
       offer_id: 2,
@@ -66,7 +49,7 @@ const OffersCarousel: React.FC<OffersCarouselProps> = ({ onOfferClick }) => {
       usage_limit: 500,
       used_count: 120,
       created_at: "2025-01-01T00:00:00Z",
-      updated_at: "2025-01-01T00:00:00Z"
+      // updated_at omitted in user-facing Offer type
     },
     {
       offer_id: 3,
@@ -84,31 +67,28 @@ const OffersCarousel: React.FC<OffersCarouselProps> = ({ onOfferClick }) => {
       usage_limit: 200,
       used_count: 45,
       created_at: "2025-01-01T00:00:00Z",
-      updated_at: "2025-01-01T00:00:00Z"
+      // updated_at omitted in user-facing Offer type
     }
   ];
 
-  // Fetch offers from API
+  // Fetch offers from public API
   const fetchOffers = async () => {
     try {
       setLoading(true);
       setError(null);
-      
-      // TODO: Replace with actual API call
-      // const response = await fetch(`${process.env.VITE_BACKEND_URL}/offers/active`);
-      // const data = await response.json();
-      // setOffers(data.offers || []);
-      
-      // For now, use mock data
-      setTimeout(() => {
+
+      const data = await getPublicActiveOffers();
+      if (data.success && data.offers.length > 0) {
+        setOffers(data.offers);
+      } else {
+        // fallback to mocks if no offers returned
         setOffers(mockOffers);
-        setLoading(false);
-      }, 1000);
-      
+      }
     } catch (err) {
       console.error('Failed to fetch offers:', err);
       setError('Failed to load offers');
-      setOffers(mockOffers); // Fallback to mock data
+      setOffers(mockOffers);
+    } finally {
       setLoading(false);
     }
   };
@@ -143,23 +123,7 @@ const OffersCarousel: React.FC<OffersCarouselProps> = ({ onOfferClick }) => {
     return () => stopAutoSlide();
   }, [offers.length]);
 
-  const formatDiscount = (offer: Offer): string => {
-    if (offer.discount_type === 'percentage') {
-      return `${offer.discount_value}%`;
-    } else {
-      return `₹${offer.discount_value}`;
-    }
-  };
-
-  const formatValidUntil = (offer: Offer): string => {
-    if (!offer.valid_until) return '';
-    const date = new Date(offer.valid_until);
-    return date.toLocaleDateString('en-GB', { 
-      day: '2-digit', 
-      month: 'short', 
-      year: 'numeric' 
-    });
-  };
+  // No additional formatting needed – we only display the image
 
   const handleOfferClick = (offer: Offer) => {
     onOfferClick?.(offer);
@@ -208,110 +172,25 @@ const OffersCarousel: React.FC<OffersCarouselProps> = ({ onOfferClick }) => {
   const currentOffer = offers[currentIndex];
 
   return (
-    <div 
-      className="relative bg-white rounded-[18px] overflow-hidden shadow-md flex-shrink-0"
-      style={{ 
-        width: '379px', 
+    <div
+      className="relative flex items-center justify-center flex-shrink-0 mx-auto mt-4 px-2 py-1"
+      style={{
+        width: '379px',
         height: '177px',
-        margin: '0 auto',
-        marginTop: '16px',
-        aspectRatio: '182/85'
+        aspectRatio: '182/85',
       }}
       onMouseEnter={stopAutoSlide}
       onMouseLeave={startAutoSlide}
+      onClick={() => handleOfferClick(currentOffer)}
     >
-      {/* Offer Content */}
-      <div 
-        className="relative w-full h-full cursor-pointer"
-        onClick={() => handleOfferClick(currentOffer)}
-      >
-        {/* Background Image */}
-        <div className="absolute inset-0">
-          <img
-            src={currentOffer.offer_image || "/placeholder-offer.jpg"}
-            alt={currentOffer.offer_title}
-            className="w-full h-full object-cover"
-            onError={(e) => {
-              (e.currentTarget as HTMLImageElement).src = "/placeholder-offer.jpg";
-            }}
-          />
-          {/* Overlay for better text readability */}
-          <div className="absolute inset-0 bg-black bg-opacity-20"></div>
-        </div>
-
-        {/* Content Overlay */}
-        <div className="absolute inset-0 flex">
-          {/* Left side - Offer Text */}
-          <div className="flex-1 p-4 flex flex-col justify-center">
-            <h3 
-              className="text-white font-semibold leading-tight mb-2"
-              style={{
-                fontFamily: 'Poppins',
-                fontSize: '16px',
-                fontWeight: 600,
-                textShadow: '0 1px 3px rgba(0,0,0,0.5)'
-              }}
-            >
-              {currentOffer.offer_title}
-            </h3>
-            {currentOffer.offer_description && (
-              <p 
-                className="text-white text-sm opacity-90"
-                style={{
-                  fontFamily: 'Poppins',
-                  fontSize: '12px',
-                  fontWeight: 400,
-                  textShadow: '0 1px 2px rgba(0,0,0,0.5)'
-                }}
-              >
-                {currentOffer.offer_description}
-              </p>
-            )}
-          </div>
-
-          {/* Right side - Discount Badge */}
-          <div className="flex flex-col items-center justify-center p-4">
-            <div 
-              className="bg-orange-500 text-white rounded-lg px-3 py-2 text-center shadow-lg"
-              style={{ backgroundColor: '#F86B1C' }}
-            >
-              <div 
-                className="font-bold text-lg leading-tight"
-                style={{
-                  fontFamily: 'Poppins',
-                  fontSize: '18px',
-                  fontWeight: 700
-                }}
-              >
-                {formatDiscount(currentOffer)}
-              </div>
-              <div 
-                className="text-xs uppercase tracking-wide"
-                style={{
-                  fontFamily: 'Poppins',
-                  fontSize: '10px',
-                  fontWeight: 500
-                }}
-              >
-                {currentOffer.discount_type === 'percentage' ? 'discount' : 'off'}
-              </div>
-            </div>
-            {currentOffer.valid_until && (
-              <div 
-                className="text-white text-xs mt-2 text-center"
-                style={{
-                  fontFamily: 'Poppins',
-                  fontSize: '10px',
-                  fontWeight: 400,
-                  textShadow: '0 1px 2px rgba(0,0,0,0.5)'
-                }}
-              >
-                Valid Until {formatValidUntil(currentOffer)}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+      <img
+        src={currentOffer.offer_image || '/placeholder-offer.jpg'}
+        alt={currentOffer.offer_title}
+        className="w-full h-full object-cover rounded-[18px]"
+        onError={(e) => {
+          (e.currentTarget as HTMLImageElement).src = '/placeholder-offer.jpg';
+        }}
+      />
 
       {/* Pagination Dots */}
       {offers.length > 1 && (

@@ -31,7 +31,7 @@ const BottomNav: React.FC = () => {
       <div className="mx-auto w-full max-w-[480px] px-4 pb-[env(safe-area-inset-bottom)]">
         <div className="relative">
           {/* Main pill container */}
-          <div className="bg-white rounded-3xl h-[72px] shadow-[0_6px_24px_rgba(0,0,0,0.15)] flex items-center justify-between px-6">
+          <div className="bg-white rounded-2xl h-[72px] shadow-[0_6px_24px_rgba(0,0,0,0.15)] flex items-center justify-between px-6">
             {items.map((item, idx) => {
               if (item.label === "Scan") {
                 // Reserve space under the floating action button
