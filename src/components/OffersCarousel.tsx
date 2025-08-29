@@ -334,3 +334,4 @@ const OffersCarousel: React.FC<OffersCarouselProps> = ({ onOfferClick }) => {
 };
 
 export default OffersCarousel;
+
